@@ -5,7 +5,7 @@ const { courseRouter } = require('./Routes/Courses');
 const { adminRouter } = require('./Routes/admin');
 
 const app = express();
-
+app.use(express.json());
 
 
 //Routing in express , the express Router
