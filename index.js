@@ -1,39 +1,17 @@
 const express = require('express');
+const { userRouter } = require('./Routes/user');
+const { courseRouter } = require('./Routes/Courses')
+
+
+
+//Routing in express , the express Router
+app.use("/user", userRouter);
+app.use("/course", courseRouter)
 
 const app = express()
 
-app.post("/user/sign-in", function(req,res){
-
-    res.json({
-        message:"signup endpoint"
-    })
-
-
-})
-app.post("/users/sign-up", function(req,res){
-    
-    res.json({
-        message:"signup endpoint"
-    })
-})
-app.get("/courses", function(req,res){
-    res.json({
-        message:"signup endpoint"
-    })
-
-})
-app.get("/users/purchases", function(req,res){
-    res.json({
-        message:"signup endpoint"
-    })
-
-})
-app.post("/course/purchase", function(req,res){
-    res.json({
-        message:"signup endpoint"
-    })
-
-})
+createUserRoutes(app);
+createCoursesRoutes(app);
 
 
 
