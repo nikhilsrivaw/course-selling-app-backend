@@ -1,9 +1,10 @@
 const { Router } = require("express");
 const express = require('express')
 const app = express();
-const {userModel} = require("../db")
+const {userModel, purchaseModel, courseModel} = require("../db")
 const jwt = require("jsonwebtoken")
-const {JWT_USER_PASSWORD} = require("../config")
+const {JWT_USER_PASSWORD} = require("../config");
+const { userMiddleware } = require("../middleware/user");
 
 const userRouter = Router();
 
@@ -58,9 +59,25 @@ userRouter.post("/signin",async function (req, res) {
     }
     
 })
-userRouter.get("/purchases", function (req, res) {
+userRouter.get("/purchases",userMiddleware,async function (req, res) {
+
+    const userId = req.userId;
+
+    const purchases = await purchaseModel.find({
+        userId,
+    });
+
+    let purchasedCourseId=[];
+    for ( let i=0 ; i<purchases.length;i++){
+        purchasedCourseId.push(purchases[i].courseId)
+    }
+
+    const courseData = await courseModel.find({
+        _id:{$in: purchasedCourseId}
+    })
     res.json({
-        message: "signup endpoint"
+        purchases,
+        courseData
     })
 
 })
